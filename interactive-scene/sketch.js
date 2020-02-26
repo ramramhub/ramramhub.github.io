@@ -32,6 +32,7 @@ function draw() {
   image(dinosaur, x, y, dinoWidth, dinoHeight);
   setupDino();
   moveDino();
+  checkIfDinoInWindow();
 }
 
 function setupDino() {
@@ -40,7 +41,7 @@ function setupDino() {
 }
 
 function keyPressed() {
-  if (key === "w" && y <= windowHeight) {
+  if (key === "w") {
     movingUp = true;
   }
 
@@ -90,5 +91,23 @@ function moveDino() {
 
   if (movingRight) {
     x += dx;
+  }
+}
+
+function checkIfDinoInWindow() {
+  if (y > windowHeight - dinoHeight) {
+    movingDown = false;
+  }
+
+  else if (y < windowHeight + dinoHeight) {
+    movingUp = false;
+  }
+
+  else if (y > windowHeight - dinoHeight) {
+    movingDown = false;
+  }
+
+  else if (y > windowHeight - dinoHeight) {
+    movingDown = false;
   }
 }
