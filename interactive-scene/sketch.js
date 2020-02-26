@@ -28,7 +28,7 @@ function setup() {
 }
 
 function draw() {
-  background(220);
+  background(255);
   image(dinosaur, x, y, dinoWidth, dinoHeight);
   setupDino();
   moveDino();
@@ -40,7 +40,7 @@ function setupDino() {
 }
 
 function keyPressed() {
-  if (key === "w") {
+  if (key === "w" && y <= windowHeight) {
     movingUp = true;
   }
 
