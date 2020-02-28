@@ -9,10 +9,11 @@ let dinosaur;
 let dinoWidth = 100;
 let dinoHeight = 50;
 
-let x;
-let y;
+let dinoX, dinoY;
 let dx = 5;
 let dy = 5;
+let ay = -0.1;
+let gravity = 0.5;
 
 let movingUp = false;
 let movingDown = false;
@@ -21,23 +22,23 @@ let movingRight = false;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  x = width/2;
-  y = height/2;
+  dinoX = width/2;
+  dinoY = height/2;
 
   dinosaur = loadImage("dinoidle.gif");
 }
 
 function draw() {
   background(255);
-  image(dinosaur, x, y, dinoWidth, dinoHeight);
+  image(dinosaur, dinoX, dinoY, dinoWidth, dinoHeight);
+  checkIfDinoInWindow();
   setupDino();
   moveDino();
-  checkIfDinoInWindow();
 }
 
 function setupDino() {
   dinosaur = loadImage("dinosprite.png");
-  image(dinosaur, x, y);
+  image(dinosaur, dinoX, dinoY);
 }
 
 function keyPressed() {
@@ -59,9 +60,6 @@ function keyPressed() {
 }
 
 function keyReleased() {
-  if (key === "w") {
-    movingUp = false;
-  }
 
   if (key === "a") {
     movingLeft = false;
@@ -78,36 +76,39 @@ function keyReleased() {
 
 function moveDino() {
   if (movingUp) {
-    y -= dy;
+    for (let dy = 10; dy > 0; dy = dy + 10 * ay) {
+      dinoY -= dy;
+    }
+    movingUp = false;
   }
 
   if (movingLeft) {
-    x -= dx;
+    dinoX -= dx;
   }
 
   if (movingDown) {
-    y += dy;
+    dinoY += dy;
   }
 
   if (movingRight) {
-    x += dx;
+    dinoX += dx;
   }
 }
 
 function checkIfDinoInWindow() {
-  if (y > windowHeight - dinoHeight) {
+  if (dinoY > windowHeight - dinoHeight) {
     movingDown = false;
   }
 
-  else if (y < windowHeight + dinoHeight) {
+  if (dinoY < 0 - dinoHeight/3) {
     movingUp = false;
   }
 
-  else if (y > windowHeight - dinoHeight) {
-    movingDown = false;
+  if (dinoX > windowWidth - dinoWidth) {
+    movingRight = false;
   }
 
-  else if (y > windowHeight - dinoHeight) {
-    movingDown = false;
+  if (dinoX < 0 - dinoWidth/5) {
+    movingLeft = false;
   }
 }
