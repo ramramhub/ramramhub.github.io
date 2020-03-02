@@ -5,15 +5,14 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-let dinosaur;
+let dino;
 let dinoWidth = 100;
 let dinoHeight = 50;
 
 let dinoX, dinoY;
-let dx = 5;
-let dy = 5;
-let ay = -0.1;
-let gravity = 0.5;
+let dx, dy = 0;
+let ax, ay = 0;
+let gravity = 0.05;
 
 let movingUp = false;
 let movingDown = false;
@@ -24,21 +23,21 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   dinoX = width/2;
   dinoY = height/2;
-
-  dinosaur = loadImage("dinoidle.gif");
+  dino = loadImage("dinoidle.gif");
 }
 
 function draw() {
   background(255);
-  image(dinosaur, dinoX, dinoY, dinoWidth, dinoHeight);
+  image(dino, dinoX, dinoY, dinoWidth, dinoHeight);
+  dinoPhysicsSetup();
   checkIfDinoInWindow();
   setupDino();
   moveDino();
 }
 
 function setupDino() {
-  dinosaur = loadImage("dinosprite.png");
-  image(dinosaur, dinoX, dinoY);
+  dino = loadImage("dinosprite.png");
+  image(dino, dinoX, dinoY);
 }
 
 function keyPressed() {
@@ -76,10 +75,7 @@ function keyReleased() {
 
 function moveDino() {
   if (movingUp) {
-    for (let dy = 10; dy > 0; dy = dy + 10 * ay) {
-      dinoY -= dy;
-    }
-    movingUp = false;
+    ay = -0.1;
   }
 
   if (movingLeft) {
@@ -111,4 +107,10 @@ function checkIfDinoInWindow() {
   if (dinoX < 0 - dinoWidth/5) {
     movingLeft = false;
   }
+}
+
+function dinoPhysicsSetup() {
+  dy += ay;
+  dinoY += dy;
+  dy += gravity;
 }
