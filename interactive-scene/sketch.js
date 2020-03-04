@@ -59,7 +59,6 @@ function keyPressed() {
 }
 
 function keyReleased() {
-
   if (key === "a") {
     movingLeft = false;
   }
