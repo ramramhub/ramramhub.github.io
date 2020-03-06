@@ -8,14 +8,19 @@
 let x, y;
 let dx, dy;
 let ax, ay;
-let gravity = 0.07;
+let gravity = 0.05;
+let degree = 0;
 
 let movingUp, movingDown, movingLeft, movingRight = false;
-let r = 50;
+let s = 25;
 
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+
+  rectMode(CENTER);
+  angleMode(DEGREES);
+
   x = width/2;
   y = height/2;
 
@@ -29,15 +34,16 @@ function setup() {
 function draw() {
   background(255);
   drawObject();
+  checkIfObjectInWindow();
   movementSetup();
   moveObject();
-  checkIfObjectInWindow();
 }
 
 function moveObject()  {
 
   if (movingLeft && dx > -10) {
     ax = -0.5;
+    degree -= 10;
   }
 
   if (movingDown && dy < 10) {
@@ -46,11 +52,12 @@ function moveObject()  {
 
   if (movingRight && dx < 10) {
     ax = 0.5;
+    degree += 10;
   }
 }
 
 function keyPressed() {
-  if (key === "w" && dy > -10) {
+  if (key === "w") {
     ay = -3;
   }
 
@@ -83,7 +90,12 @@ function keyReleased() {
 
 function drawObject() {
   fill(0);
-  ellipse(x, y, r*2, r*2);
+
+  push();
+  translate(x, y);
+  rotate(degree);
+  rect(0, 0, s*2, s*2);
+  pop();
 }
 
 function movementSetup() {
@@ -99,11 +111,15 @@ function movementSetup() {
 }
 
 function checkIfObjectInWindow() {
-  if (y > windowHeight - r || y < 0 + r) {
-    dy *= -0.2;
+  if (y > windowHeight - s) {
+    dy *= -0.1;
   }
 
-  if (x > windowWidth - r || x < 0 + r) {
+  if (y < 0 + s) {
+    dy *= -0.9;
+  }
+
+  if (x > windowWidth - s/2 || x < 0 + s/2) {
     dx *= -0.9;
   }
 }
