@@ -8,7 +8,8 @@
 let x, y;
 let dx, dy;
 let ax, ay;
-let gravity = 0.05;
+let gravity = 0.1;
+let friction = 0.1;
 let degree = 0;
 
 let movingUp, movingDown, movingLeft, movingRight = false;
@@ -105,6 +106,14 @@ function movementSetup() {
 
   dx += ax;
   x += dx;
+
+  if (dx >= 0) {
+    dx -= friction;
+  }
+
+  if (dx <= 0) {
+    dx += friction;
+  }
 
   ay = 0;
   ax = 0;
