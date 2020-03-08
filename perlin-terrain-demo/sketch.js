@@ -35,6 +35,6 @@ function createTerrain() {
     fill("black");
     rect(x, height - rectHeight, rectWidth, rectHeight);
 
-    time += 0.02;
+    time += 0.002;
   }
 }

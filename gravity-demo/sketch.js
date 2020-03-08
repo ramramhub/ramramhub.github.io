@@ -12,6 +12,10 @@ let gravity = 0.1;
 let friction = 0.1;
 let degree = 0;
 
+let rectColourR = 0;
+let rectColourB = 0;
+let rectColourG = 0;
+
 let movingUp, movingDown, movingLeft, movingRight = false;
 let s = 25;
 
@@ -42,8 +46,11 @@ function draw() {
 
 function moveObject()  {
 
-  if (movingLeft && dx > -10) {
-    ax = -0.5;
+  if (movingLeft) {
+    if (dx > -15) {
+      ax = -0.5;
+    }
+
     degree -= 10;
   }
 
@@ -51,8 +58,11 @@ function moveObject()  {
     ay = 0.5;
   }
 
-  if (movingRight && dx < 10) {
-    ax = 0.5;
+  if (movingRight) {
+    if (dx < 15) {
+      ax = 0.5;
+    }
+
     degree += 10;
   }
 }
@@ -90,7 +100,8 @@ function keyReleased() {
 }
 
 function drawObject() {
-  fill(0);
+  fill(rectColourR, rectColourG, rectColourB);
+  noStroke();
 
   push();
   translate(x, y);
@@ -107,11 +118,11 @@ function movementSetup() {
   dx += ax;
   x += dx;
 
-  if (dx >= 0) {
+  if (dx > 0) {
     dx -= friction;
   }
 
-  if (dx <= 0) {
+  if (dx < 0) {
     dx += friction;
   }
 
@@ -126,9 +137,26 @@ function checkIfObjectInWindow() {
 
   if (y < 0 + s) {
     dy *= -0.9;
+    y = 20;
+    randomizeRectColour();
   }
 
-  if (x > windowWidth - s/2 || x < 0 + s/2) {
+  if (x < 0 + s/2) {
     dx *= -0.9;
+    x = 20;
+    randomizeRectColour();
   }
+
+  if (x > windowWidth - s/2) {
+    dx *= -0.9;
+    x = windowWidth - 20;
+    randomizeRectColour();
+  }
+
+}
+
+function randomizeRectColour() {
+  rectColourR = random(0, 255);
+  rectColourG = random(0, 255);
+  rectColourB = random(0, 255);
 }
