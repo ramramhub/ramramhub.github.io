@@ -133,11 +133,12 @@ function movementSetup() {
 function checkIfObjectInWindow() {
   if (y > windowHeight - s) {
     dy *= -0.1;
+    y = windowHeight - s;
   }
 
   if (y < 0 + s) {
     dy *= -0.9;
-    y = 20;
+    y = 40;
     randomizeRectColour();
   }
 
