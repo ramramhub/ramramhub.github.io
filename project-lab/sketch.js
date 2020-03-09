@@ -9,6 +9,7 @@
 // - added scroll wheel interactivity with scene
 // - demonstrated knowledge on object rotation
 
+//defines basic variables
 let x, y;
 let dx, dy;
 let ax, ay;
@@ -16,15 +17,17 @@ let gravity = 0.1;
 let friction = 0.1;
 let degree = 0;
 
+//defines RGB colour variables
 let rectColourR = 0;
 let rectColourB = 0;
 let rectColourG = 0;
 
-let movingUp, movingDown, movingLeft, movingRight = false;
+//defines state variables, scalar value, and side length
+let movingDown, movingLeft, movingRight = false;
 let scalar = 1;
 let s = 25;
 
-
+//basic set-up
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
@@ -41,6 +44,7 @@ function setup() {
   ay = 0;
 }
 
+//draw loop
 function draw() {
   background(255);
   drawObject();
@@ -49,8 +53,9 @@ function draw() {
   moveObject();
 }
 
+//if state variables are true, user will smoothly move around, accelerate, and spin with WASD
 function moveObject()  {
-
+  //accelerates and spins user left
   if (movingLeft) {
     if (dx > -15) {
       ax = -0.5;
@@ -59,10 +64,12 @@ function moveObject()  {
     degree -= 10;
   }
 
+  //accelerates user down
   if (movingDown && dy < 10) {
     ay = 0.5;
   }
 
+  //accelerates and spins user right
   if (movingRight) {
     if (dx < 15) {
       ax = 0.5;
@@ -72,9 +79,11 @@ function moveObject()  {
   }
 }
 
+//if WASD keys are pressed, their respective state variable is changed to "true"
 function keyPressed() {
+  //because there is no state variable for the "w" to get flappy bird style jumping, pressing "w" will change acceleration only
   if (key === "w") {
-    ay = -3;
+    ay = -4;
   }
 
   if (key === "a") {
@@ -90,6 +99,7 @@ function keyPressed() {
   }
 }
 
+//if WASD keys are released, state variables are changed to "false"
 function keyReleased() {
   if (key === "a") {
     movingLeft = false;
@@ -104,10 +114,13 @@ function keyReleased() {
   }
 }
 
+//draws the user as a rectangle
 function drawObject() {
+  //colours user
   fill(rectColourR, rectColourG, rectColourB);
   noStroke();
 
+  //draws and translates user
   push();
   translate(x, y);
   rotate(degree);
@@ -115,14 +128,17 @@ function drawObject() {
   pop();
 }
 
+//sets up physics environment
 function movementSetup() {
-  dy += ay;
+  //position, distance, acceleration, and gravity relationships
+  dy += ay; 
   y += dy;
   dy += gravity;
 
   dx += ax;
   x += dx;
 
+  //applies friction on user
   if (dx > 0) {
     dx -= friction;
   }
@@ -131,42 +147,46 @@ function movementSetup() {
     dx += friction;
   }
 
+  //resets x, y acceleration
   ay = 0;
   ax = 0;
 }
 
+//checks if user is within website window
 function checkIfObjectInWindow() {
-  if (y > windowHeight - s * scalar) {
+  if (y > windowHeight - s * scalar) { //if user is on ground, bounce back with 0.1x energy
     dy *= -0.1;
-    y = windowHeight - s * scalar;
+    y = windowHeight - s * scalar; //reposition user
   }
 
-  if (y < 0 + s * scalar) {
+  if (y < 0 + s * scalar) { //if user hits top of window, change colour and bounce back with 0.9x energy
     dy *= -0.9;
-    y = 40 * scalar;
+    y = 25 * scalar; //reposition user
     randomizeRectColour();
   }
 
-  if (x < 0 + s/2 * scalar) {
+  if (x < 0 + s/2 * scalar) { //if user hits left side, change colour and bounce back with 0.9x energy
     dx *= -0.9;
     x = 20 * scalar;
     randomizeRectColour();
   }
 
-  if (x > windowWidth - s/2 * scalar) {
+  if (x > windowWidth - s/2 * scalar) { //if user hits right side, change colour and bounce back with 0.9x energy
     dx *= -0.9;
-    x = windowWidth - 20 * scalar;
+    x = windowWidth - 20 * scalar; //reposition user
     randomizeRectColour();
   }
 
 }
 
+//assigns a random RGB value for user's rectangle colour when called
 function randomizeRectColour() {
   rectColourR = random(0, 255);
   rectColourG = random(0, 255);
   rectColourB = random(0, 255);
 }
 
+//scales rectangle from 0.05x to 5x when mouse scroll used
 function mouseWheel(scaleRect) {
   if (scaleRect.deltaY > 0 && scalar < 5) {
     scalar *= 1.1;

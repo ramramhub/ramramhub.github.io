@@ -1,48 +1,89 @@
-// Project Title
-// Your Name
-// Date
+// Interactive Scene
+// Ramit Kapoor
+// March 9th, 2020
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// - added smooth and coherent physics system in project
+// - added WASD controls for movement
+// - demonstrated understanding in state variables to improve code efficiency
+// - added scroll wheel interactivity with scene
+// - demonstrated knowledge on object rotation
 
-let dino;
-let dinoWidth = 100;
-let dinoHeight = 50;
+//defines basic variables
+let x, y;
+let dx, dy;
+let ax, ay;
+let gravity = 0.1;
+let friction = 0.1;
+let degree = 0;
 
-let dinoX, dinoY;
-let dx, dy = 0;
-let ax, ay = 0;
-let gravity = 0.05;
+//defines RGB colour variables
+let rectColourR = 0;
+let rectColourB = 0;
+let rectColourG = 0;
 
-let movingUp = false;
-let movingDown = false;
-let movingLeft = false;
-let movingRight = false;
+//defines state variables, scalar value, and side length
+let movingDown, movingLeft, movingRight = false;
+let scalar = 1;
+let s = 25;
 
+//basic set-up
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  dinoX = width/2;
-  dinoY = height/2;
-  dino = loadImage("dinoidle.gif");
+
+  rectMode(CENTER);
+  angleMode(DEGREES); 
+
+  x = width/2;
+  y = height/2;
+
+  dx = 0;
+  dy = 0;
+
+  ax = 0;
+  ay = 0;
 }
 
+//draw loop
 function draw() {
   background(255);
-  image(dino, dinoX, dinoY, dinoWidth, dinoHeight);
-  dinoPhysicsSetup();
-  checkIfDinoInWindow();
-  setupDino();
-  moveDino();
+  drawObject();
+  checkIfObjectInWindow();
+  movementSetup();
+  moveObject();
 }
 
-function setupDino() {
-  dino = loadImage("dinosprite.png");
-  image(dino, dinoX, dinoY);
+//if state variables are true, user will smoothly move around, accelerate, and spin with WASD
+function moveObject()  {
+  //accelerates and spins user left
+  if (movingLeft) {
+    if (dx > -15) {
+      ax = -0.5;
+    }
+
+    degree -= 10;
+  }
+
+  //accelerates user down
+  if (movingDown && dy < 10) {
+    ay = 0.5;
+  }
+
+  //accelerates and spins user right
+  if (movingRight) {
+    if (dx < 15) {
+      ax = 0.5;
+    }
+
+    degree += 10;
+  }
 }
 
+//if WASD keys are pressed, their respective state variable is changed to "true"
 function keyPressed() {
+  //because there is no state variable for the "w" to get flappy bird style jumping, pressing "w" will change acceleration only
   if (key === "w") {
-    movingUp = true;
+    ay = -4;
   }
 
   if (key === "a") {
@@ -58,6 +99,7 @@ function keyPressed() {
   }
 }
 
+//if WASD keys are released, state variables are changed to "false"
 function keyReleased() {
   if (key === "a") {
     movingLeft = false;
@@ -72,44 +114,85 @@ function keyReleased() {
   }
 }
 
-function moveDino() {
-  if (movingUp) {
-    ay = -0.1;
-  }
+//draws the user as a rectangle
+function drawObject() {
+  //colours user
+  fill(rectColourR, rectColourG, rectColourB);
+  noStroke();
 
-  if (movingLeft) {
-    dinoX -= dx;
-  }
-
-  if (movingDown) {
-    dinoY += dy;
-  }
-
-  if (movingRight) {
-    dinoX += dx;
-  }
+  //draws and translates user
+  push();
+  translate(x, y);
+  rotate(degree);
+  rect(0, 0, scalar * s * 2, scalar * s * 2);
+  pop();
 }
 
-function checkIfDinoInWindow() {
-  if (dinoY > windowHeight - dinoHeight) {
-    movingDown = false;
-  }
-
-  if (dinoY < 0 - dinoHeight/3) {
-    movingUp = false;
-  }
-
-  if (dinoX > windowWidth - dinoWidth) {
-    movingRight = false;
-  }
-
-  if (dinoX < 0 - dinoWidth/5) {
-    movingLeft = false;
-  }
-}
-
-function dinoPhysicsSetup() {
-  dy += ay;
-  dinoY += dy;
+//sets up physics environment
+function movementSetup() {
+  //position, distance, acceleration, and gravity relationships
+  dy += ay; 
+  y += dy;
   dy += gravity;
+
+  dx += ax;
+  x += dx;
+
+  //applies friction on user
+  if (dx > 0) {
+    dx -= friction;
+  }
+
+  if (dx < 0) {
+    dx += friction;
+  }
+
+  //resets x, y acceleration
+  ay = 0;
+  ax = 0;
+}
+
+//checks if user is within website window
+function checkIfObjectInWindow() {
+  if (y > windowHeight - s * scalar) { //if user is on ground, bounce back with 0.1x energy
+    dy *= -0.1;
+    y = windowHeight - s * scalar; //reposition user
+  }
+
+  if (y < 0 + s * scalar) { //if user hits top of window, change colour and bounce back with 0.9x energy
+    dy *= -0.9;
+    y = 25 * scalar; //reposition user
+    randomizeRectColour();
+  }
+
+  if (x < 0 + s/2 * scalar) { //if user hits left side, change colour and bounce back with 0.9x energy
+    dx *= -0.9;
+    x = 20 * scalar;
+    randomizeRectColour();
+  }
+
+  if (x > windowWidth - s/2 * scalar) { //if user hits right side, change colour and bounce back with 0.9x energy
+    dx *= -0.9;
+    x = windowWidth - 20 * scalar; //reposition user
+    randomizeRectColour();
+  }
+
+}
+
+//assigns a random RGB value for user's rectangle colour when called
+function randomizeRectColour() {
+  rectColourR = random(0, 255);
+  rectColourG = random(0, 255);
+  rectColourB = random(0, 255);
+}
+
+//scales rectangle from 0.05x to 5x when mouse scroll used
+function mouseWheel(scaleRect) {
+  if (scaleRect.deltaY > 0 && scalar < 5) {
+    scalar *= 1.1;
+  }
+
+  else if (scaleRect.deltaY < 0 && scalar > 0.05) {
+    scalar *= 0.9;
+  }
 }
