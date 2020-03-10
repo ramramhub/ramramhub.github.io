@@ -25,7 +25,7 @@ let rectColourG = 0;
 //defines state variables, scalar value, and side length
 let movingDown, movingLeft, movingRight = false;
 let scalar = 1;
-let s = 25;
+let rectSide = 25;
 
 //basic set-up
 function setup() {
@@ -124,7 +124,7 @@ function drawObject() {
   push();
   translate(x, y);
   rotate(degree);
-  rect(0, 0, scalar * s * 2, scalar * s * 2);
+  rect(0, 0, scalar * rectSide * 2, scalar * rectSide * 2);
   pop();
 }
 
@@ -154,24 +154,24 @@ function movementSetup() {
 
 //checks if user is within website window
 function checkIfObjectInWindow() {
-  if (y > windowHeight - s * scalar) { //if user is on ground, bounce back with 0.1x energy
+  if (y > windowHeight - rectSide * scalar) { //if user is on ground, bounce back with 0.1x energy
     dy *= -0.1;
-    y = windowHeight - s * scalar; //reposition user
+    y = windowHeight - rectSide * scalar; //reposition user
   }
 
-  if (y < 0 + s * scalar) { //if user hits top of window, change colour and bounce back with 0.9x energy
+  if (y < 0 + rectSide * scalar) { //if user hits top of window, change colour and bounce back with 0.9x energy
     dy *= -0.9;
     y = 25 * scalar; //reposition user
     randomizeRectColour();
   }
 
-  if (x < 0 + s/2 * scalar) { //if user hits left side, change colour and bounce back with 0.9x energy
+  if (x < 0 + rectSide/2 * scalar) { //if user hits left rectSide, change colour and bounce back with 0.9x energy
     dx *= -0.9;
     x = 20 * scalar;
     randomizeRectColour();
   }
 
-  if (x > windowWidth - s/2 * scalar) { //if user hits right side, change colour and bounce back with 0.9x energy
+  if (x > windowWidth - rectSide/2 * scalar) { //if user hits right rectSide, change colour and bounce back with 0.9x energy
     dx *= -0.9;
     x = windowWidth - 20 * scalar; //reposition user
     randomizeRectColour();
@@ -179,7 +179,7 @@ function checkIfObjectInWindow() {
 
 }
 
-//assigns a random RGB value for user's rectangle colour when called
+//assigns a random RGB value for user'rectSide rectangle colour when called
 function randomizeRectColour() {
   rectColourR = random(0, 255);
   rectColourG = random(0, 255);
