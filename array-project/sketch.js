@@ -28,13 +28,13 @@ let enemies = [];
 let bullets = [];
 let score = 0;
 let highScore = 0;
-let enemySpawnTimer = 3000;
+let timer;
 let resetButton;
 
 //basic set-up
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  window.setInterval(spawnEnemy, enemySpawnTimer);
+  window.setInterval(spawnEnemy, 2500);
   noStroke();
 
   //creates reset button after game is lost
@@ -203,11 +203,6 @@ function movePlayer() {
 function spawnEnemy() {
   let newEnemy = new enemy;
   enemies.push(newEnemy);
-  
-  //spawn timer lowered to make game more challenging over time
-  if (enemySpawnTimer > 300) {
-    enemySpawnTimer -= 150;
-  }
 }
 
 //draws a new enemy on screen
@@ -316,7 +311,6 @@ function reset() {
   playerWidth = 50;
   playerLength = 50;
   playerAngle = 0;
-  enemySpawnTimer = 3000;
 
   loop();
 }
