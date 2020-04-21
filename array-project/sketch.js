@@ -8,6 +8,7 @@
 // - explored objects in more depth and used classes for smoother functionality
 // - used translation for player rotation in respect to the mouse cursor
 // - used some CSS/HTML to customize reset button
+// - attempted using enemy AI by using vectors to prompt enemies to follow player when spawned
 
 //defines basic variables
 let playerX, playerY;
@@ -349,7 +350,9 @@ function displayScoreBox() {
   let scoreBoxHeight = 50;
 
   fill('#aa1414');
-  rect(width/75 + 10, height/75 + 10, scoreBoxWidth, scoreBoxHeight, 5);
+  rectMode(CENTER);
+  rect(75, 37.5, scoreBoxWidth, scoreBoxHeight, 5);
+  rectMode(CORNER);
 
   fill("white");
   textSize(16);
@@ -357,7 +360,7 @@ function displayScoreBox() {
 
   textFont('Algerian');
   textStyle(BOLD);
-  text("SCORE: " + score, scoreBoxWidth/1.45, scoreBoxHeight);
+  text("SCORE: " + score, 75, 42.5);
 }
 
 //displays text instructions on bottom center
