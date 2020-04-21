@@ -367,7 +367,7 @@ function displayInstructions() {
   textFont('Georgia');
   
   fill(170,20,20);
-  text("WASD to move - SPACE or MOUSE CLICK to shoot - AVOID INCOMING CIRCLES!", width/2, height - 30);
+  text("WASD to move - SPACE or LEFT CLICK to shoot - AVOID INCOMING CIRCLES!", width/2, height - 30);
 }
 
 //class for bullets for smoother functionality
