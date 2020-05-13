@@ -138,7 +138,7 @@ function showHardButton() {
 function pickEasyGame() {
   treasureNumber = floor(random(7, 9));
   difficulty = 1.5;
-  energy = 1500;
+  energy = 2000;
   startGame();
 }
 
@@ -146,7 +146,7 @@ function pickEasyGame() {
 function pickMediumGame() {
   treasureNumber = floor(random(10, 16));
   difficulty = 1.2;
-  energy = 1200;
+  energy = 1600;
   startGame();
 }
 
@@ -154,7 +154,7 @@ function pickMediumGame() {
 function pickHardGame() {
   treasureNumber = floor(random(17, 22));
   difficulty = 1;
-  energy = 900;
+  energy = 1200;
   startGame();
 }
 
@@ -374,14 +374,14 @@ function gameWon() {
   textFont('Georgia');
   textSize(55);
   textAlign(CENTER);
-  fill(158, 34, 13);
+  fill("white");
   text("YOU WON!!", width/2, height/2 - 30);
 
   textSize(16);
   textStyle(BOLD);
 
   text("YOU FOUND ALL " + treasureFound + " TREASURE PIECES", width/2, height/2);
-  text("GREAT WORK", width/2, height/2 + 20);
+  text("GREAT WORK!", width/2, height/2 + 20);
 
   showResetButton();
   noLoop();
@@ -392,7 +392,7 @@ function gameOver() {
   textFont('Georgia');
   textSize(55);
   textAlign(CENTER);
-  fill(158, 34, 13);
+  fill("white");
   text("GAME OVER!!", width/2, height/2 - 30);
 
   textSize(16);
@@ -478,7 +478,7 @@ function showResetButton() {
   resetButton.style('text-font', 'Georgia');
   resetButton.style('text-align', 'center');
   resetButton.style('padding-top', '7px');
-  resetButton.style('background-color', '#aa1414');
+  resetButton.style('background-color', '#2b0c91');
   resetButton.style('border-radius', '5px');
   resetButton.style('color', 'white');
   resetButton.style('cursor', 'pointer');
@@ -489,12 +489,12 @@ function showResetButton() {
 
 //hover feature for reset buttons
 function changeResetButtonBG() {
-  resetButton.style('background-color', '#8c0000');
+  resetButton.style('background-color', '#22077d');
 }
 
 //hover feature for reset buttons
 function changeResetButtonBGBack() {
-  resetButton.style('background-color', '#aa1414');
+  resetButton.style('background-color', '#2b0c91');
 }
 
 //resets variables and restarts game
