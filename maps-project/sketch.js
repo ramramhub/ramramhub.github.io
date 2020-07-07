@@ -148,7 +148,7 @@ function displayResults(averageSentiment, minKey, minValue, maxKey, maxValue, ph
 
   //if minValue = maxValue, then all words have the same sentiment, else the paragraph will display the most positive/negative words
   if (minValue === maxValue) {
-    otherStats.html("All your words have the same sentiment value!")
+    otherStats.html("All of your words have the same sentiment value!")
   }
 
   else if (phraseWordScores.size > 1) {
